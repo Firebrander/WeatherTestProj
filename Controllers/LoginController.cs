@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WeatherTestProj.Services.Business;
 
 namespace WeatherTestProj.Controllers
 {
@@ -14,9 +15,19 @@ namespace WeatherTestProj.Controllers
         {
             return View("Login");
         }
-        public string Login(UserModel userModel)
+        public ActionResult Login(UserModel userModel)
         {
-            return "Results: Username = " + userModel.username + " PW: " + userModel.password;
+            //return "Results: Username = " + userModel.username + " PW: " + userModel.password;
+            SecurityService securityService = new SecurityService();
+            Boolean success = securityService.Authenticate(userModel);
+            if (success)
+            {
+                return View("LoginSuccess", userModel);
+            }
+            else
+            {
+                return View("LoginFailure");
+            }
         }
     }
 }

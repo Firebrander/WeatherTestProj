@@ -6,32 +6,53 @@
 
 <h2>Weather Search</h2>
 
-
 @*@using (Html.BeginForm())*@
-@using (Html.BeginForm("ReturnStr", "TestFetch", FormMethod.Post))
+@using (Html.BeginForm("FetchData", "TestFetch", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Find Me Some Weather!</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Find Me Some Weather!</h4>
+        <h5><i>(To specify a country, please type in a two digit country code after your search word, separated by a comma...)</i></h5>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.searchterms, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.searchterms, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.searchterms, "", new { @class = "text-danger" })
-            <br /><input type="submit" value="Search" class="btn btn-default" />
-        </div> 
+        <div class="form-group">
+            @Html.LabelFor(model => model.searchterms, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.searchterms, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.searchterms, "", new { @class = "text-danger" })
+                <br /><input type="submit" value="Search" class="btn btn-default" />
+                <div>@ViewBag.Message</div>
+            </div>
+        </div>
     </div>
-</div>
+    <table border="1">
+        <thead><h1>@Html.DisplayFor(model => model.Placename) @Html.DisplayFor(model => model.Country) @Html.DisplayFor(model => model.Today)</h1></thead>
+        <tr bgcolor= "#e8f6ff">
+            <td style="padding: 10px"><b><img src="@Html.DisplayFor(model => model.Icon)" alt="Current Conditions" width="100" height="100"/></b></td>
+            <td style="padding: 10px" align="center"><b>@Html.DisplayFor(model => model.Description) </b></td>
+            <td style="padding: 10px"></td>
+            <td style="padding: 10px"></td>
+        </tr>
+        <tr bgcolor= "#e8f6ff">
+            <td style="padding: 10px"><b>Current Temp: @Html.DisplayFor(model => model.Temp)°C</b></td>
+            <td style="padding: 10px"><b>Min temp: @Html.DisplayFor(model => model.Mintemp)°C</b></td>
+            <td style="padding: 10px"><b>Max temp: @Html.DisplayFor(model => model.Maxtemp)°C</b></td>
+            <td style="padding: 10px"></td>
+        </tr>
+        <tr bgcolor= "#e8f6ff">
+            <td style="padding: 10px"><b>Pressure: @Html.DisplayFor(model => model.Pressure)mb </b></td>
+            <td style="padding: 10px"><b>Humidity: @Html.DisplayFor(model => model.Humidity)%</b></td>
+            <td style="padding: 10px"><b>Sunrise: @Html.DisplayFor(model => model.Sunrise) </b></td>
+            <td style="padding: 10px"><b>Sunset: @Html.DisplayFor(model => model.Sunset) </b></td>
+        </tr>
+    </table>
 }
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
